@@ -6,6 +6,7 @@ import {
   Image,
   Button,
   Badge,
+  Text,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 
@@ -13,6 +14,7 @@ import { HiShoppingCart } from "react-icons/hi";
 
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Links = ["Home", "Products"];
 
@@ -38,7 +40,8 @@ const NavLink = ({ children }) => (
 export default function Navbar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { ItemCount } = useSelector((store) => store.CartReducer);
-
+  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
+  console.log(user);
   return (
     <>
       <Box backgroundColor={backgroundColor} p={4}>
@@ -85,7 +88,26 @@ export default function Navbar() {
           </Flex>
 
           <Flex alignItems={"center"} gap="30px">
-            <Link to="/login">
+            {isAuthenticated ? (
+              <Flex flexDirection="column" gap="10px">
+                <Text fontSize="sm">Welcome {user.name}</Text>
+                <Button
+                  backgroundColor={backgroundColor}
+                  color="white"
+                  border="1px solid #ccc"
+                  _hover={{
+                    color: "black",
+                  }}
+                  onClick={() =>
+                    logout({
+                      logoutParams: { returnTo: window.location.origin },
+                    })
+                  }
+                >
+                  Logout
+                </Button>
+              </Flex>
+            ) : (
               <Button
                 backgroundColor={backgroundColor}
                 color="white"
@@ -93,10 +115,12 @@ export default function Navbar() {
                 _hover={{
                   color: "black",
                 }}
+                onClick={() => loginWithRedirect()}
               >
                 Login
               </Button>
-            </Link>
+            )}
+
             <Link to="/cart">
               <Badge>{ItemCount}</Badge>
               <HiShoppingCart size={40} />

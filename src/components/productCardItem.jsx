@@ -13,6 +13,8 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { addToCart } from "../redux/CartPage/action";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useNavigate } from "react-router-dom";
 
 function ProductCardItem({
   img,
@@ -27,7 +29,20 @@ function ProductCardItem({
   const { data } = useSelector((store) => store.CartReducer);
   const [visible, setVisible] = useState(false);
   const toast = useToast();
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth0();
   const HandleAddtoBag = () => {
+    if (!isAuthenticated) {
+      toast({
+        description: "Please login to use this.",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
+      navigate("/");
+      return;
+    }
     const payload = {
       img,
       title,
