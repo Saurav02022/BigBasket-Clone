@@ -36,11 +36,11 @@ const Home = () => {
         />
       </Box>
 
-      <FourCards data={Bank} text="Bank Offers" />
-      <FourCards data={mostPopular} text="Most Popular" />
-      <FourCards data={offer} text="Top Offers" />
-      <FourCards data={store} text="Store" />
-      <FourCards data={brand} xl={"6"} text="Brand Store" />
+      <FourCards data={Bank} text="Bank Offers" key={"Bank Offers"} />
+      <FourCards data={mostPopular} text="Most Popular" key="Most Popular" />
+      <FourCards data={offer} text="Top Offers" key="Top offres" />
+      <FourCards data={store} text="Store" key="Store" />
+      <FourCards data={brand} xl={"6"} text="Brand Store" key="Brand Store" />
     </div>
   );
 };

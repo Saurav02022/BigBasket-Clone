@@ -24,7 +24,7 @@ const GiftCard = () => {
     setLoading(true);
 
     toast({
-      description: "Payment Successful",
+      description: "Payment Successfully",
       status: "success",
       duration: 5000,
       isClosable: true,

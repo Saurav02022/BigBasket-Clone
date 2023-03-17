@@ -7,7 +7,7 @@ import { successPayment } from "../../../redux/CartPage/action";
 const Paytm = () => {
   const [number, setNumber] = useState(0);
   const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const toast = useToast();
 
@@ -19,7 +19,7 @@ const Paytm = () => {
     setLoading(true);
 
     toast({
-      description: "Payment Successful",
+      description: "Payment Successfully",
       status: "success",
       duration: 5000,
       isClosable: true,
@@ -27,7 +27,7 @@ const Paytm = () => {
     });
 
     setTimeout(() => {
-      dispatch(successPayment())
+      dispatch(successPayment());
       navigate("/");
     }, 2500);
   };

@@ -34,8 +34,8 @@ function ProductCardItem({
   const HandleAddtoBag = () => {
     if (!isAuthenticated) {
       toast({
-        description: "Please login to use this.",
-        status: "warning",
+        description: "Please login",
+        status: "info",
         duration: 3000,
         isClosable: true,
         position: "top-right",

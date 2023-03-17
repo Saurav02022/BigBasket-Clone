@@ -42,6 +42,13 @@ function CartItem({
   };
 
   const RemoveItem = () => {
+    toast({
+      description: "Remove item Successfully",
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+      position: "bottom-right",
+    });
     dispatch(removeItem(title));
     dispatch(decrease(price));
   };

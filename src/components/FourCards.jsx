@@ -27,9 +27,9 @@ const FourCards = ({ data = [], xl = 4, text }) => {
         gap="10px"
         marginTop="20px"
       >
-        {data.map((item) => {
+        {data.map((item, index) => {
           return (
-            <Box>
+            <Box key={index}>
               <Image src={item} />
             </Box>
           );

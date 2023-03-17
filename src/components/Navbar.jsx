@@ -7,6 +7,7 @@ import {
   Button,
   Badge,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 
@@ -15,6 +16,7 @@ import { HiShoppingCart } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useMemo, memo } from "react";
 
 const Links = ["Home", "Products"];
 
@@ -37,11 +39,24 @@ const NavLink = ({ children }) => (
   </Link>
 );
 
-export default function Navbar() {
+function Navbar() {
+  const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { ItemCount } = useSelector((store) => store.CartReducer);
   const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
-  console.log(user);
+
+  useMemo(() => {
+    if (isAuthenticated) {
+      toast({
+        description: "Login Successfully",
+        status: "success",
+        duration: 3000,
+        isClosable: true,
+        position: "top-right",
+      });
+    }
+  }, [isAuthenticated]);
+
   return (
     <>
       <Box backgroundColor={backgroundColor} p={4}>
@@ -91,6 +106,7 @@ export default function Navbar() {
             {isAuthenticated ? (
               <Flex flexDirection="column" gap="10px">
                 <Text fontSize="sm">Welcome {user.name}</Text>
+
                 <Button
                   backgroundColor={backgroundColor}
                   color="white"
@@ -98,11 +114,18 @@ export default function Navbar() {
                   _hover={{
                     color: "black",
                   }}
-                  onClick={() =>
+                  onClick={() => {
+                    toast({
+                      description: "Logout Successfully",
+                      status: "success",
+                      duration: 3000,
+                      isClosable: true,
+                      position: "top-right",
+                    });
                     logout({
                       logoutParams: { returnTo: window.location.origin },
-                    })
-                  }
+                    });
+                  }}
                 >
                   Logout
                 </Button>
@@ -139,3 +162,4 @@ export default function Navbar() {
     </>
   );
 }
+export default Navbar;

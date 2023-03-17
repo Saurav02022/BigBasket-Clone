@@ -28,7 +28,7 @@ const CreditCard = () => {
   const [cvv, setcvv] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const handleBtn = () => {
     if (cardNumber.length !== 16) {
@@ -47,7 +47,7 @@ const CreditCard = () => {
     setLoading(true);
 
     toast({
-      description: "Payment Successful",
+      description: "Payment Successfully",
       status: "success",
       duration: 5000,
       isClosable: true,
@@ -55,7 +55,7 @@ const CreditCard = () => {
     });
 
     setTimeout(() => {
-      dispatch(successPayment())
+      dispatch(successPayment());
       navigate("/");
     }, 2500);
   };

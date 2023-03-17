@@ -336,15 +336,17 @@ function PaymentPage() {
               <AccordionPanel pb={4}>
                 <Text display={"flex"} justifyContent="space-between">
                   <span>Bag MRP ({ItemCount} items)</span>
-                  <span>₹{totalCartPrice}</span>
+                  <span>₹{totalCartPrice.toFixed(1)}</span>
                 </Text>
                 <Text display={"flex"} justifyContent="space-between">
                   <span>After Discount</span>
-                  <span>₹{totalCartPrice}</span>
+                  <span>₹{totalCartPrice.toFixed(1)}</span>
                 </Text>
                 <Text display={"flex"} justifyContent="space-between">
                   <span>Saving at this Time</span>
-                  <span color="green">{totalCartPrice - totalCartPrice}</span>
+                  <span color="green">
+                    {totalCartPrice.toFixed(1) - totalCartPrice.toFixed(1)}
+                  </span>
                 </Text>
                 <Heading
                   display={"flex"}
@@ -352,7 +354,7 @@ function PaymentPage() {
                   as="h1"
                   fontSize="16px"
                 >
-                  <span>You Pay</span> <span>₹{totalCartPrice}</span>{" "}
+                  <span>You Pay</span> <span>₹{totalCartPrice.toFixed(1)}</span>{" "}
                 </Heading>
               </AccordionPanel>
             </AccordionItem>
