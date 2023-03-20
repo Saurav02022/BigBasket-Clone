@@ -70,4 +70,4 @@ I developed a clone of bigbasket.com, an e-commerce platform for groceries, as a
 
 ![App Screenshot](https://user-images.githubusercontent.com/104342116/224605132-90983e61-fcd8-45fc-94ca-7b9c28a8a6dd.png)
 
-<a href="https://bigbasket-apnidukan.netlify.app/">For more Please visit my deployed link. </a>
+<a href="https://bigbasket-apnidukan.netlify.app/" target="_blank">For more Please visit my deployed link. </a>
