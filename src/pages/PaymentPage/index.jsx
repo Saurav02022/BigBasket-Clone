@@ -25,6 +25,7 @@ import Cod from "./Components/Cod";
 import { useSelector } from "react-redux";
 
 function PaymentPage() {
+  
   const { ItemCount, totalCartPrice, deliveryAddress } = useSelector(
     (state) => state.CartReducer
   );
@@ -304,7 +305,7 @@ function PaymentPage() {
                   </Heading>
                   <Text>{deliveryAddress.name}</Text>
                   <Text>{deliveryAddress.email}</Text>
-                  <Text>{deliveryAddress.phone}</Text>
+                  <Text>{deliveryAddress.number}</Text>
                   <Text>{deliveryAddress.address}</Text>
                   <Text>{deliveryAddress.pincode}</Text>
                 </Flex>

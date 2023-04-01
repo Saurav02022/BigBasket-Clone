@@ -16,7 +16,7 @@ import { HiShoppingCart } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useMemo, memo } from "react";
+import { useMemo,useEffect } from "react";
 
 const Links = ["Home", "Products"];
 
@@ -45,15 +45,25 @@ function Navbar() {
   const { ItemCount } = useSelector((store) => store.CartReducer);
   const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
 
-  useMemo(() => {
+  const showToast = (description, status) => {
+    toast({
+      description: description,
+      status: status,
+      duration: 4000,
+      isClosable: true,
+      position: "bottom-right",
+    });
+  };
+
+  // useMemo(() => {
+  //   if (isAuthenticated) {
+  //     showToast("Login Successfully", "success");
+  //   }
+  // }, [isAuthenticated]);
+
+  useEffect(() => {
     if (isAuthenticated) {
-      toast({
-        description: "Login Successfully",
-        status: "success",
-        duration: 3000,
-        isClosable: true,
-        position: "top-right",
-      });
+      showToast("Login Successfully", "success");
     }
   }, [isAuthenticated]);
 
@@ -115,13 +125,7 @@ function Navbar() {
                     color: "black",
                   }}
                   onClick={() => {
-                    toast({
-                      description: "Logout Successfully",
-                      status: "success",
-                      duration: 3000,
-                      isClosable: true,
-                      position: "top-right",
-                    });
+                    showToast("Logout Successfully", "success");
                     logout({
                       logoutParams: { returnTo: window.location.origin },
                     });

@@ -22,48 +22,56 @@ import { useNavigate } from "react-router-dom";
 import { successPayment } from "../../../redux/CartPage/action";
 
 const CreditCard = () => {
-  const toast = useToast();
   const [cardNumber, setcardNumber] = useState("");
   const [expiry, setExipry] = useState("");
   const [cvv, setcvv] = useState("");
+
   const [loading, setLoading] = useState(false);
+
+  const toast = useToast();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const { totalCartPrice } = useSelector((state) => state.CartReducer);
+
+  const showToast = (description, status) => {
+    toast({
+      description: description,
+      status: status,
+      duration: 3000,
+      isClosable: true,
+      position: "bottom-right",
+    });
+  };
+
   const handleBtn = () => {
     if (cardNumber.length !== 16) {
-      alert("card number should be 16 digits without any spaces");
+      showToast(
+        "card number should be 16 digits without any spaces",
+        "warning"
+      );
       return;
     }
     if (!expiry.includes("/")) {
-      alert("Expiry should be a valid number");
+      showToast("Expiry should be a valid number", "warning");
       return;
     }
 
     if (cvv.length !== 3 && typeof Number(cvv) !== Number) {
-      alert("invalid cvv number");
+      showToast("invalid cvv number", "warning");
       return;
     }
     setLoading(true);
-
-    toast({
-      description: "Payment Successfully",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-      position: "top-right",
-    });
-
+    showToast("Payment Successfully", "success");
     setTimeout(() => {
       dispatch(successPayment());
       navigate("/");
-    }, 2500);
+      setLoading(false);
+    }, 2100);
   };
 
-  const { totalCartPrice } = useSelector((state) => state.CartReducer);
-
   if (loading) {
-    return <Heading>loading....</Heading>;
+    return <Heading textAlign={"center"}>loading....</Heading>;
   }
   return (
     <Flex

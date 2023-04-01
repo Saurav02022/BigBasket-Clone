@@ -1,46 +1,52 @@
-import React, { useState } from "react";
 import { Flex, Heading, Input, Button, useToast } from "@chakra-ui/react";
+
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useNavigate } from "react-router-dom";
 import { successPayment } from "../../../redux/CartPage/action";
+
 const GiftCard = () => {
-  const toast = useToast();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [cardNumber, setcardNumber] = useState(0);
   const [pin, setPin] = useState(0);
 
+  const { totalCartPrice } = useSelector((state) => state.CartReducer);
+
+  const toast = useToast();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const showToast = (description, status) => {
+    toast({
+      description: description,
+      status: status,
+      duration: 3000,
+      isClosable: true,
+      position: "bottom-right",
+    });
+  };
+
   const handlebtn = () => {
     if (cardNumber.length !== 11) {
-      alert("Please enter a vaild 11 digit card number");
+      showToast("Please enter a vaild 11 digit card number", "warning");
       return;
     }
     if (pin.length !== 4) {
-      alert("Please enter a valid 4 digit pin number");
+      showToast("Please enter a valid 4 digit pin number", "warning");
       return;
     }
     setLoading(true);
-
-    toast({
-      description: "Payment Successfully",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-      position: "top-right",
-    });
-
+    showToast("Payment Successfully", "success");
     setTimeout(() => {
       dispatch(successPayment());
       navigate("/");
-    }, 2500);
+      setLoading(false);
+    }, 2100);
   };
 
-  const { totalCartPrice } = useSelector((state) => state.CartReducer);
-
   if (loading) {
-    return <Heading>loading....</Heading>;
+    return <Heading textAlign={"center"}>loading....</Heading>;
   }
   return (
     <Flex

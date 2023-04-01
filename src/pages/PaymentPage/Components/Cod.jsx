@@ -5,11 +5,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { successPayment } from "../../../redux/CartPage/action";
 
 const Cod = () => {
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+
   const { totalCartPrice } = useSelector((state) => state.CartReducer);
+
+  const dispatch = useDispatch();
   const toast = useToast();
   const navigate = useNavigate();
+
   const HandleClick = () => {
     if (totalCartPrice > 0) {
       setLoading(true);
@@ -24,12 +27,13 @@ const Cod = () => {
       setTimeout(() => {
         dispatch(successPayment());
         navigate("/");
-      }, 2500);
+        setLoading(false);
+      }, 2100);
     }
   };
 
   if (loading) {
-    return <Heading>loading....</Heading>;
+    return <Heading textAlign={"center"}>loading....</Heading>;
   }
   return (
     <Flex

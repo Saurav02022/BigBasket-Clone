@@ -1,38 +1,44 @@
-import React, { useState } from "react";
 import { Flex, Heading, Input, Button, useToast } from "@chakra-ui/react";
-import { useDispatch, useSelector } from "react-redux";
 
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
 import { successPayment } from "../../../redux/CartPage/action";
+
 const Paytm = () => {
   const [number, setNumber] = useState(0);
   const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const toast = useToast();
 
+  const showToast = (description, status) => {
+    toast({
+      description: description,
+      status: status,
+      duration: 3000,
+      isClosable: true,
+      position: "bottom-right",
+    });
+  };
+
   const handleBtn = () => {
     if (number.length !== 10) {
-      alert("Please enter a valid 10 digit mobile number");
+      showToast("Please enter a valid 10 digit mobile number", "warning");
       return;
     }
     setLoading(true);
-
-    toast({
-      description: "Payment Successfully",
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-      position: "top-right",
-    });
-
+    showToast("Payment Successfully", "success");
     setTimeout(() => {
       dispatch(successPayment());
       navigate("/");
-    }, 2500);
+      setLoading(false);
+    }, 2100);
   };
   if (loading) {
-    return <Heading>loading....</Heading>;
+    return <Heading textAlign={"center"}>loading....</Heading>;
   }
   return (
     <Flex

@@ -12,9 +12,9 @@ const PrivateRoute = ({ children }) => {
     toast({
       description: "Please Login",
       status: "info",
-      duration: 1000,
+      duration: 2000,
       isClosable: true,
-      position: "top-right",
+      position: "bottom-right",
     });
     return <Navigate to="/" />;
   }

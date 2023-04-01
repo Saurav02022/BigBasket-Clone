@@ -26,107 +26,63 @@ import { Address } from "../redux/CartPage/action";
 import { AddressReducer, initialState } from "./Reducer/AddAddress";
 
 const Cart = () => {
-  const { data, totalCartPrice } = useSelector((store) => store.CartReducer);
+  const { data, totalCartPrice, deliveryAddress } = useSelector(
+    (store) => store.CartReducer
+  );
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [state, dispatch] = useReducer(AddressReducer, initialState);
   const toast = useToast();
   const Dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const AddAddress = () => {
-    if (!state.name) {
-      toast({
-        description: "Please Enter a name",
-        status: "warning",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom-right",
-      });
-      return;
-    }
-    if (!state.email) {
-      toast({
-        description: "Please Enter a email address",
-        status: "warning",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom-right",
-      });
-      return;
-    }
-    if (!state.email.includes("@")) {
-      toast({
-        title: "invalid email address",
-        description: "Please enter a valid email address",
-        status: "warning",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom-right",
-      });
-      return;
-    }
-    if (!state.number) {
-      toast({
-        description: "Please Enter a phone number",
-        status: "warning",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom-right",
-      });
-      return;
-    }
-    if (state.number.length !== 10) {
-      toast({
-        title: "invalid phone Number",
-        description: "Please enter a valid 10 digit phone number",
-        status: "warning",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom-right",
-      });
-      return;
-    }
-    if (!state.address) {
-      toast({
-        description: "Please Enter Your Delivery Address",
-        status: "warning",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom-right",
-      });
-      return;
-    }
-    if (!state.pincode) {
-      toast({
-        description: "Please Enter Your pincode",
-        status: "warning",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom-right",
-      });
-      return;
-    }
-    if (state.pincode.length !== 6) {
-      toast({
-        title: "invalid pincode",
-        description: "Please Enter a valid six digit pincode",
-        status: "warning",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom-right",
-      });
-      return;
-    }
-    Dispatch(Address(state));
+  const showToast = (description, status) => {
     toast({
-      description: "Address added successfully",
-      status: "success",
+      description: description,
+      status: status,
       duration: 3000,
       isClosable: true,
       position: "bottom-right",
     });
+  };
+
+  const AddAddress = () => {
+    if (!state.name) {
+      showToast("Please Enter a name", "warning");
+      return;
+    }
+    if (!state.email) {
+      showToast("Please Enter a email address", "warning");
+      return;
+    }
+    if (!state.email.includes("@")) {
+      showToast("invalid email address", "warning");
+      return;
+    }
+    if (!state.number) {
+      showToast("Please Enter a phone number", "warning");
+      return;
+    }
+    if (state.number.length !== 10) {
+      showToast("invalid phone Number", "warning");
+      return;
+    }
+    if (!state.address) {
+      showToast("Please Enter Your Delivery Address", "warning");
+      return;
+    }
+    if (!state.pincode) {
+      showToast("Please Enter Your pincode", "warning");
+      return;
+    }
+    if (state.pincode.length !== 6) {
+      showToast("invalid pincode", "warning");
+      return;
+    }
+    Dispatch(Address(state));
+    showToast("Address added successfully", "success");
     navigate("/payment");
   };
+
   return (
     <Box flexDirection="column">
       <Box

@@ -9,8 +9,10 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
+
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+
 import { decrease, increase, removeItem } from "../redux/CartPage/action";
 
 function CartItem({

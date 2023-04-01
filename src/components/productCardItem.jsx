@@ -9,12 +9,13 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
+
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { addToCart } from "../redux/CartPage/action";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
+
+import { addToCart } from "../redux/CartPage/action";
 
 function ProductCardItem({
   img,
@@ -25,21 +26,28 @@ function ProductCardItem({
   quantity,
   productQuantity,
 }) {
-  const dispatch = useDispatch();
-  const { data } = useSelector((store) => store.CartReducer);
   const [visible, setVisible] = useState(false);
+  const { data } = useSelector((store) => store.CartReducer);
+
+  const dispatch = useDispatch();
   const toast = useToast();
   const navigate = useNavigate();
+
   const { isAuthenticated } = useAuth0();
+
+  const showToast = (description, status) => {
+    toast({
+      description: description,
+      status: status,
+      duration: 4000,
+      isClosable: true,
+      position: "bottom-right",
+    });
+  };
+
   const HandleAddtoBag = () => {
     if (!isAuthenticated) {
-      toast({
-        description: "Please login",
-        status: "info",
-        duration: 3000,
-        isClosable: true,
-        position: "top-right",
-      });
+      showToast("Please login", "info");
       navigate("/");
       return;
     }
@@ -57,22 +65,10 @@ function ProductCardItem({
     });
     if (existPayload.length > 0) {
       setVisible(true);
-      toast({
-        description: "Product already exists in the cart",
-        status: "warning",
-        duration: 3000,
-        isClosable: true,
-        position: "bottom-right",
-      });
+      showToast("Product already exists is in the cart", "info");
       return;
     }
-    toast({
-      description: "Product added successfully",
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-      position: "bottom-right",
-    });
+    showToast("Product added successfully", "success");
     setVisible(true);
     dispatch(addToCart(payload));
   };
@@ -195,7 +191,9 @@ function ProductCardItem({
           Add to bag
         </Button>
         {visible && (
-          <Text color="red">You can increase quantity at cart Page</Text>
+          <Text color="red">
+            You can increase or decrease quantity on the cart Page.
+          </Text>
         )}
       </Flex>
     </Box>
