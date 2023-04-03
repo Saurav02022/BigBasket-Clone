@@ -1,10 +1,28 @@
-import { Box } from "@chakra-ui/react";
-import React from "react";
-
-import { data } from "./Data/productsData";
+import { Box, Heading } from "@chakra-ui/react";
+import React, { useEffect } from "react";
 
 import CartItem from "../components/productCardItem";
+import { useDispatch, useSelector } from "react-redux";
+import { getData } from "../redux/ProductPage/action";
+
 const Product = () => {
+  const dispatch = useDispatch();
+  const { data, loading, error } = useSelector((store) => store.productReducer);
+
+  useEffect(() => {
+    dispatch(getData());
+  }, []);
+
+  if (loading) {
+    return <Heading textAlign="center">loading...</Heading>;
+  }
+  if (error) {
+    return (
+      <Heading textAlign="center" color="red">
+        Server Down PLease Try again Later
+      </Heading>
+    );
+  }
   return (
     <Box
       display="grid"
