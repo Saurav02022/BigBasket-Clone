@@ -33,9 +33,22 @@ const Product = () => {
         }}
         margin="auto"
         marginTop="5"
+        display={"flex"}
+        flexDirection={{
+          base: "column",
+          md:"row",
+          lg: "row",
+        }}
+        gap="5"
       >
         <Select onChange={(e) => setSortBy(e.target.value)}>
           <option value=" ">Sort by Price</option>
+          <option value="all">All</option>
+          <option value="asc">Low to High</option>
+          <option value="desc">High to Low</option>
+        </Select>
+        <Select>
+          <option value=" ">Sort by Rating</option>
           <option value="all">All</option>
           <option value="asc">Low to High</option>
           <option value="desc">High to Low</option>
