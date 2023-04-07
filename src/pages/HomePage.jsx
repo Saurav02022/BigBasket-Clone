@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 
 import { Box, Image } from "@chakra-ui/react";
 
-import FourCards from "../components/FourCards";
-
-import { firstCarousel } from "./Data/Carousel";
 import { Bank } from "./Data/Bank";
-import { mostPopular } from "./Data/most Popular";
-import { offer } from "./Data/topOffer";
 import { store } from "./Data/store";
+import { offer } from "./Data/topOffer";
 import { brand } from "./Data/brand.js";
+import { firstCarousel } from "./Data/Carousel";
+import { mostPopular } from "./Data/most Popular";
+
+import FourCards from "../components/FourCards";
 
 const Home = () => {
   const [firstImage, setFirstImage] = useState(0);

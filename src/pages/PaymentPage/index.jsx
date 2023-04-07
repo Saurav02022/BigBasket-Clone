@@ -12,24 +12,22 @@ import {
 } from "@chakra-ui/react";
 
 import { useState } from "react";
-
+import { SiPaytm } from "react-icons/si";
+import { useSelector } from "react-redux";
 import { AiOutlineCreditCard } from "react-icons/ai";
 import { BsArrowRightCircle, BsCashCoin, BsGift } from "react-icons/bs";
-import { SiPaytm } from "react-icons/si";
 
-import Paytm from "./Components/Paytm";
-import CreditCard from "./Components/CreditCard";
-import GiftCard from "./Components/GiftCard";
 import Cod from "./Components/Cod";
-
-import { useSelector } from "react-redux";
+import Paytm from "./Components/Paytm";
+import GiftCard from "./Components/GiftCard";
+import CreditCard from "./Components/CreditCard";
 
 function PaymentPage() {
-  
+  const [method, setMethod] = useState("Card");
+
   const { ItemCount, totalCartPrice, deliveryAddress } = useSelector(
     (state) => state.CartReducer
   );
-  const [method, setMethod] = useState("Card");
 
   return (
     <Flex
@@ -116,7 +114,7 @@ function PaymentPage() {
                 }}
                 onClick={() => setMethod("Card")}
                 border="1px solid grey"
-                borderLeft={method === "Card" && "5px solid #689f38"}
+                borderLeft={method === "Card" && `5px solid #689f38`}
                 padding="2"
                 boxShadow="md"
                 borderRadius="10px"

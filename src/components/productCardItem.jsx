@@ -1,4 +1,3 @@
-import { StarIcon } from "@chakra-ui/icons";
 import {
   Badge,
   Box,
@@ -7,65 +6,53 @@ import {
   Heading,
   Image,
   Text,
-  useToast,
 } from "@chakra-ui/react";
+import { StarIcon } from "@chakra-ui/icons";
 
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
+import backgroundColor from "./backgroundColor";
 import { addToCart } from "../redux/CartPage/action";
+import useShowToast from "../CustomHooks/useShowToast";
 
 function ProductCardItem({
+  index,
   img,
   title,
   price,
   rating,
   category,
   quantity,
-  productQuantity,
 }) {
-  const [visible, setVisible] = useState(false);
-  const { data } = useSelector((store) => store.CartReducer);
-
   const dispatch = useDispatch();
-  const toast = useToast();
-  const navigate = useNavigate();
-
+  const [showToast] = useShowToast();
   const { isAuthenticated } = useAuth0();
+  const [visible, setVisible] = useState(false);
 
-  const showToast = (description, status) => {
-    toast({
-      description: description,
-      status: status,
-      duration: 4000,
-      isClosable: true,
-      position: "bottom-right",
-    });
-  };
+  const { data } = useSelector((store) => store.CartReducer);
 
   const HandleAddtoBag = () => {
     if (!isAuthenticated) {
       showToast("Please login", "info");
-      navigate("/");
       return;
     }
     const payload = {
+      index,
       img,
       title,
       price,
       rating,
       category,
       quantity,
-      productQuantity,
     };
     const existPayload = data.filter((item) => {
-      return item.title === title;
+      return item.index === index;
     });
     if (existPayload.length > 0) {
       setVisible(true);
-      showToast("Product already exists is in the cart", "info");
+      showToast("Please Visit again to buy more", "info");
       return;
     }
     showToast("Product added successfully", "success");
@@ -184,17 +171,13 @@ function ProductCardItem({
           marginTop="10px"
           width="50%"
           color={"white"}
-          backgroundColor="#689f38"
+          backgroundColor={backgroundColor}
           onClick={HandleAddtoBag}
           isDisabled={visible}
         >
           Add to bag
         </Button>
-        {visible && (
-          <Text color="red">
-            You can increase or decrease quantity on the cart Page.
-          </Text>
-        )}
+        {visible && <Text color="red">You can buy only One at a time.</Text>}
       </Flex>
     </Box>
   );

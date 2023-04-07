@@ -1,29 +1,24 @@
 import React, { useState } from "react";
-import { Flex, Heading, Button, useToast } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { Flex, Heading, Button } from "@chakra-ui/react";
+
+import useShowToast from "../../../CustomHooks/useShowToast";
 import { successPayment } from "../../../redux/CartPage/action";
+import backgroundColor from "../../../components/backgroundColor";
 
 const Cod = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [showToast] = useShowToast();
   const [loading, setLoading] = useState(false);
 
   const { totalCartPrice } = useSelector((state) => state.CartReducer);
 
-  const dispatch = useDispatch();
-  const toast = useToast();
-  const navigate = useNavigate();
-
   const HandleClick = () => {
     if (totalCartPrice > 0) {
       setLoading(true);
-      toast({
-        description: "Payment Successfully",
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-        position: "top-right",
-      });
-
+      showToast("Payment Successfully", "success", 4000);
       setTimeout(() => {
         dispatch(successPayment());
         navigate("/");
@@ -35,6 +30,7 @@ const Cod = () => {
   if (loading) {
     return <Heading textAlign={"center"}>loading....</Heading>;
   }
+
   return (
     <Flex
       gap="2"
@@ -60,10 +56,10 @@ const Cod = () => {
         fontWeight="600"
         height="49px"
         padding="12px 12px 12px 12px"
-        backgroundColor="#689f38"
+        backgroundColor={backgroundColor}
         _hover={{
           color: "white",
-          backgroundColor: "#689f38",
+          backgroundColor: { backgroundColor },
         }}
         onClick={HandleClick}
       >

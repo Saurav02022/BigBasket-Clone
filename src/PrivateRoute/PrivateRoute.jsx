@@ -1,23 +1,10 @@
-import React from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Navigate } from "react-router-dom";
-import { useToast } from "@chakra-ui/react";
+import { Navigate, Outlet } from "react-router-dom";
 
-const PrivateRoute = ({ children }) => {
-  const toast = useToast();
+const PrivateRoute = () => {
   const { isAuthenticated } = useAuth0();
-  if (isAuthenticated) {
-    return children;
-  } else {
-    toast({
-      description: "Please Login",
-      status: "info",
-      duration: 2000,
-      isClosable: true,
-      position: "bottom-right",
-    });
-    return <Navigate to="/" />;
-  }
+
+  return isAuthenticated ? <Outlet /> : <Navigate to="/" />;
 };
 
 export default PrivateRoute;

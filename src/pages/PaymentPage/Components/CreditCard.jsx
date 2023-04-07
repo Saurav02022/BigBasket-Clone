@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import {
   Flex,
   Heading,
@@ -14,35 +13,26 @@ import {
 } from "@chakra-ui/react";
 import { InfoIcon } from "@chakra-ui/icons";
 
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import { CardImages } from "./Data/CardImages";
-
-import { useNavigate } from "react-router-dom";
+import useShowToast from "../../../CustomHooks/useShowToast";
 import { successPayment } from "../../../redux/CartPage/action";
+import backgroundColor from "../../../components/backgroundColor";
 
 const CreditCard = () => {
-  const [cardNumber, setcardNumber] = useState("");
-  const [expiry, setExipry] = useState("");
   const [cvv, setcvv] = useState("");
-
+  const [expiry, setExipry] = useState("");
   const [loading, setLoading] = useState(false);
+  const [cardNumber, setcardNumber] = useState("");
 
-  const toast = useToast();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [showToast] = useShowToast();
 
   const { totalCartPrice } = useSelector((state) => state.CartReducer);
-
-  const showToast = (description, status) => {
-    toast({
-      description: description,
-      status: status,
-      duration: 3000,
-      isClosable: true,
-      position: "bottom-right",
-    });
-  };
 
   const handleBtn = () => {
     if (cardNumber.length !== 16) {
@@ -62,7 +52,7 @@ const CreditCard = () => {
       return;
     }
     setLoading(true);
-    showToast("Payment Successfully", "success");
+    showToast("Payment Successfully", "success", 4000);
     setTimeout(() => {
       dispatch(successPayment());
       navigate("/");
@@ -73,6 +63,7 @@ const CreditCard = () => {
   if (loading) {
     return <Heading textAlign={"center"}>loading....</Heading>;
   }
+
   return (
     <Flex
       gap="2"
@@ -153,10 +144,10 @@ const CreditCard = () => {
         fontWeight="600"
         height="49px"
         padding="12px 12px 12px 12px"
-        backgroundColor="#689f38"
+        backgroundColor={backgroundColor}
         _hover={{
           color: "white",
-          backgroundColor: "#689f38",
+          backgroundColor: { backgroundColor },
         }}
         onClick={handleBtn}
       >

@@ -1,60 +1,21 @@
 import { StarIcon } from "@chakra-ui/icons";
-import {
-  Badge,
-  Box,
-  Button,
-  Flex,
-  Heading,
-  Image,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
+import { Badge, Box, Button, Flex, Heading, Image } from "@chakra-ui/react";
 
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { decrease, increase, removeItem } from "../redux/CartPage/action";
+import { decrease, removeItem } from "../redux/CartPage/action";
+import useShowToast from "../CustomHooks/useShowToast";
 
-function CartItem({
-  img,
-  title,
-  price,
-  rating,
-  category,
-  quantity,
-  productQuantity,
-}) {
-  const [Quantity, setQuantity] = useState(productQuantity);
+function CartItem({ index, img, title, price, rating, category, quantity }) {
+  const [showToast] = useShowToast();
   const dispatch = useDispatch();
 
-  const toast = useToast();
-
-  const increaseQuantity = () => {
-    setQuantity((pre) => pre + 1);
-    dispatch(increase(price));
-  };
-
-  const decreaseQuantity = () => {
-    if (Quantity === 1) {
-      setQuantity(productQuantity);
-      return;
-    }
-    setQuantity((pre) => pre - 1);
-    dispatch(decrease(price));
-  };
-
   const RemoveItem = () => {
-    toast({
-      description: "Remove item Successfully",
-      status: "success",
-      duration: 2000,
-      isClosable: true,
-      position: "bottom-right",
-    });
-    dispatch(removeItem(title));
+    showToast("Remove item Successfully", "success");
+    dispatch(removeItem(index));
     dispatch(decrease(price));
   };
-
+  
   return (
     <Box
       display={"flex"}
@@ -161,12 +122,7 @@ function CartItem({
             {rating.count} Ratings
           </Heading>
         </Flex>
-        <Flex gap={"2"} justifyContent="center" alignItems="center">
-          <Button onClick={decreaseQuantity}>-</Button>
-          <Text>{Quantity}</Text>
-          <Button onClick={increaseQuantity}>+</Button>
-        </Flex>
-        <Box justifyContent="center">
+        <Flex flexDirection="column" alignItems="center" gap="2" marginTop="2">
           <Button
             width="50%"
             backgroundColor="red"
@@ -176,7 +132,7 @@ function CartItem({
           >
             Remove Item
           </Button>
-        </Box>
+        </Flex>
       </Flex>
     </Box>
   );

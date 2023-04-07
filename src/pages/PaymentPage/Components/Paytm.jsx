@@ -1,10 +1,12 @@
-import { Flex, Heading, Input, Button, useToast } from "@chakra-ui/react";
+import { Flex, Heading, Input, Button } from "@chakra-ui/react";
 
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import useShowToast from "../../../CustomHooks/useShowToast";
 import { successPayment } from "../../../redux/CartPage/action";
+import backgroundColor from "../../../components/backgroundColor";
 
 const Paytm = () => {
   const [number, setNumber] = useState(0);
@@ -12,17 +14,7 @@ const Paytm = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const toast = useToast();
-
-  const showToast = (description, status) => {
-    toast({
-      description: description,
-      status: status,
-      duration: 3000,
-      isClosable: true,
-      position: "bottom-right",
-    });
-  };
+  const [showToast] = useShowToast();
 
   const handleBtn = () => {
     if (number.length !== 10) {
@@ -30,13 +22,14 @@ const Paytm = () => {
       return;
     }
     setLoading(true);
-    showToast("Payment Successfully", "success");
+    showToast("Payment Successfully", "success", 4000);
     setTimeout(() => {
       dispatch(successPayment());
       navigate("/");
       setLoading(false);
     }, 2100);
   };
+
   if (loading) {
     return <Heading textAlign={"center"}>loading....</Heading>;
   }
@@ -72,10 +65,10 @@ const Paytm = () => {
         fontWeight="600"
         height="49px"
         padding="12px 12px 12px 12px"
-        backgroundColor="#689f38"
+        backgroundColor={backgroundColor}
         _hover={{
           color: "#FFFFFF",
-          backgroundColor: "#689f38",
+          backgroundColor: {backgroundColor},
         }}
       >
         Link

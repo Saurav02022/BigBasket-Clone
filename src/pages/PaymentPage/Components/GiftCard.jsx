@@ -1,31 +1,23 @@
-import { Flex, Heading, Input, Button, useToast } from "@chakra-ui/react";
+import { Flex, Heading, Input, Button } from "@chakra-ui/react";
 
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
+import useShowToast from "../../../CustomHooks/useShowToast";
 import { successPayment } from "../../../redux/CartPage/action";
+import backgroundColor from "../../../components/backgroundColor";
 
 const GiftCard = () => {
+  const [pin, setPin] = useState(0);
   const [loading, setLoading] = useState(false);
   const [cardNumber, setcardNumber] = useState(0);
-  const [pin, setPin] = useState(0);
 
-  const { totalCartPrice } = useSelector((state) => state.CartReducer);
-
-  const toast = useToast();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showToast] = useShowToast();
 
-  const showToast = (description, status) => {
-    toast({
-      description: description,
-      status: status,
-      duration: 3000,
-      isClosable: true,
-      position: "bottom-right",
-    });
-  };
+  const { totalCartPrice } = useSelector((state) => state.CartReducer);
 
   const handlebtn = () => {
     if (cardNumber.length !== 11) {
@@ -37,7 +29,7 @@ const GiftCard = () => {
       return;
     }
     setLoading(true);
-    showToast("Payment Successfully", "success");
+    showToast("Payment Successfully", "success", 4000);
     setTimeout(() => {
       dispatch(successPayment());
       navigate("/");
@@ -89,10 +81,10 @@ const GiftCard = () => {
           fontWeight="600"
           height="49px"
           padding="12px 12px 12px 12px"
-          backgroundColor="#689f38"
+          backgroundColor={backgroundColor}
           _hover={{
             color: "#FFFFFF",
-            backgroundColor: "#689f38",
+            backgroundColor: { backgroundColor },
           }}
           onClick={handlebtn}
         >

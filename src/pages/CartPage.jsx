@@ -15,35 +15,26 @@ import {
   Text,
   Textarea,
   useDisclosure,
-  useToast,
 } from "@chakra-ui/react";
+
 import React, { useReducer } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import CartItem from "../components/CartItem";
 import { Address } from "../redux/CartPage/action";
+import useShowToast from "../CustomHooks/useShowToast";
+import backgroundColor from "../components/backgroundColor";
 import { AddressReducer, initialState } from "./Reducer/AddAddress";
 
 const Cart = () => {
-  const { data, totalCartPrice, deliveryAddress } = useSelector(
-    (store) => store.CartReducer
-  );
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [state, dispatch] = useReducer(AddressReducer, initialState);
-  const toast = useToast();
   const Dispatch = useDispatch();
   const navigate = useNavigate();
+  const [showToast] = useShowToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [state, dispatch] = useReducer(AddressReducer, initialState);
 
-  const showToast = (description, status) => {
-    toast({
-      description: description,
-      status: status,
-      duration: 3000,
-      isClosable: true,
-      position: "bottom-right",
-    });
-  };
+  const { data, totalCartPrice } = useSelector((store) => store.CartReducer);
 
   const AddAddress = () => {
     if (!state.name) {
@@ -80,7 +71,7 @@ const Cart = () => {
     }
     Dispatch(Address(state));
     showToast("Address added successfully", "success");
-    navigate("/payment");
+    navigate("/user/payment");
   };
 
   return (
@@ -92,8 +83,9 @@ const Cart = () => {
         gridTemplateColumns={{
           base: "repeat(1,1fr)",
           sm: "repeat(2,1fr)",
-          lg: "repeat(3,1fr)",
-          xl: `repeat(3,1fr)`,
+          md: "repeat(3,1fr)",
+          lg: "repeat(4,1fr)",
+          xl: `repeat(4,1fr)`,
         }}
         gap="20px"
         marginTop="50px"
@@ -118,7 +110,7 @@ const Cart = () => {
             Your shopping cart is Empty
           </Heading>
           <Link to="/product">
-            <Button bgColor="#689f38" color="white">
+            <Button bgColor={backgroundColor} color="white">
               Start shopping
             </Button>
           </Link>
@@ -150,7 +142,7 @@ const Cart = () => {
         <Flex justifyContent="flex-end">
           <Button
             marginTop="20px"
-            bgColor="#689f38"
+            bgColor={backgroundColor}
             color="white"
             onClick={onOpen}
             isDisabled={totalCartPrice > 0 ? false : true}
@@ -208,7 +200,11 @@ const Cart = () => {
             <Button colorScheme="red" mr={3} onClick={onClose}>
               Cancel
             </Button>
-            <Button bgColor="#689f38" color="white" onClick={AddAddress}>
+            <Button
+              bgColor={backgroundColor}
+              color="white"
+              onClick={AddAddress}
+            >
               Add Delivery Address
             </Button>
           </ModalFooter>

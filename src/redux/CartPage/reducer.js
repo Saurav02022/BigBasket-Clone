@@ -1,9 +1,8 @@
 import {
   cartDataLoading,
   cartDataSuccess,
-  deleteSuccess,
-  increaseQuantity,
-  decreaseQuantity,
+  deleteCartItem,
+  decreasePrice,
   address,
   successfullypayment,
 } from "./actionType";
@@ -35,22 +34,16 @@ export const CartReducer = (state = initialState, { type, payload }) => {
       };
     }
 
-    case increaseQuantity: {
-      return {
-        ...state,
-        totalCartPrice: state.totalCartPrice + payload,
-      };
-    }
-    case decreaseQuantity: {
+    case decreasePrice: {
       return {
         ...state,
         totalCartPrice: state.totalCartPrice - payload,
       };
     }
 
-    case deleteSuccess: {
+    case deleteCartItem: {
       const filterData = state.data.filter((item) => {
-        return item.title !== payload;
+        return item.index !== payload;
       });
       return {
         ...state,
@@ -58,6 +51,7 @@ export const CartReducer = (state = initialState, { type, payload }) => {
         ItemCount: filterData.length,
       };
     }
+
     case address: {
       return {
         ...state,

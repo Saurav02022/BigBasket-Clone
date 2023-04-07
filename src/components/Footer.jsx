@@ -16,6 +16,9 @@ import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
 import { BiMailSend } from "react-icons/bi";
 
 import { Link } from "react-router-dom";
+
+import backgroundColor from "./backgroundColor";
+
 const SocialButton = ({ children, label, href }) => {
   return (
     <chakra.button
@@ -110,10 +113,10 @@ export default function Footer() {
                 }}
               />
               <IconButton
-                bg={useColorModeValue("#689f38")}
+                bg={useColorModeValue(backgroundColor)}
                 color={useColorModeValue("white", "gray.800")}
                 _hover={{
-                  bg: "#689f38",
+                  bg: backgroundColor,
                 }}
                 aria-label="Subscribe"
                 icon={<BiMailSend />}

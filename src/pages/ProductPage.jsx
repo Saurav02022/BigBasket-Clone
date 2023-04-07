@@ -1,14 +1,14 @@
-import { Box, Heading, Select } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { Box, Heading, Select } from "@chakra-ui/react";
 
-import CartItem from "../components/productCardItem";
-import { useDispatch, useSelector } from "react-redux";
 import { getData } from "../redux/ProductPage/action";
+import { useDispatch, useSelector } from "react-redux";
+import ProductCardItem from "../components/productCardItem";
 
 const Product = () => {
   const dispatch = useDispatch();
-  const { data, loading, error } = useSelector((store) => store.productReducer);
   const [sortby, setSortBy] = useState("");
+  const { data, loading, error } = useSelector((store) => store.productReducer);
 
   useEffect(() => {
     dispatch(getData(sortby));
@@ -64,7 +64,16 @@ const Product = () => {
         marginBottom="50px"
       >
         {data.map((item, index) => (
-          <CartItem {...item} key={index} />
+          <ProductCardItem
+            index={index}
+            img={item.img}
+            title={item.title}
+            price={item.price}
+            rating={item.rating}
+            category={item.category}
+            quantity={item.quantity}
+            key={index}
+          />
         ))}
       </Box>
     </>

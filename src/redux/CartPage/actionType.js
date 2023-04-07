@@ -1,11 +1,9 @@
 export const cartDataLoading = "cart/data/loading";
 export const cartDataSuccess = "cart/data/success";
 
-export const deleteSuccess = "delete/success";
+export const deleteCartItem = "delete/cardItem";
+export const decreasePrice = "decrease/price";
 
-export const increaseQuantity = "increase/quantity";
-export const decreaseQuantity = "decrease/quantity";
-
-export const address = "address";
+export const address = "Add/address";
 
 export const successfullypayment = "successfullypayment";

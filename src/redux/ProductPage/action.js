@@ -10,13 +10,13 @@ const byPriceLowToHigh =
 const byPriceHighToLow =
   "https://bigbasket-clone-backend-db-json.vercel.app/posts?_sort=price&_order=desc";
 
-
 export const getData = (sortby) => async (dispatch) => {
-  const url = sortby === 'asc'
-  ? byPriceLowToHigh
-  : sortby === 'desc'
-    ? byPriceHighToLow
-    : initialDataURL;
+  const url =
+    sortby === "asc"
+      ? byPriceLowToHigh
+      : sortby === "desc"
+      ? byPriceHighToLow
+      : initialDataURL;
   try {
     dispatch({ type: DataLoading });
     await axios.get(url).then((res) => {
