@@ -15,8 +15,11 @@ import {
   Text,
   Textarea,
   useDisclosure,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
 
+import { useFormik, Form } from "formik";
 import React, { useReducer } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,54 +28,36 @@ import CartItem from "../components/CartItem";
 import { Address } from "../redux/CartPage/action";
 import useShowToast from "../CustomHooks/useShowToast";
 import backgroundColor from "../components/backgroundColor";
-import { AddressReducer, initialState } from "./Reducer/AddAddress";
+
+import { AddressSchema } from "../Schema";
+
+const initialValue = {
+  name: "",
+  email: "",
+  number: "",
+  address: "",
+  pincode: "",
+};
 
 const Cart = () => {
   const Dispatch = useDispatch();
   const navigate = useNavigate();
   const [showToast] = useShowToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [state, dispatch] = useReducer(AddressReducer, initialState);
 
   const { data, totalCartPrice } = useSelector((store) => store.CartReducer);
 
-  const AddAddress = () => {
-    if (!state.name) {
-      showToast("Please Enter a name", "warning");
-      return;
-    }
-    if (!state.email) {
-      showToast("Please Enter a email address", "warning");
-      return;
-    }
-    if (!state.email.includes("@")) {
-      showToast("invalid email address", "warning");
-      return;
-    }
-    if (!state.number) {
-      showToast("Please Enter a phone number", "warning");
-      return;
-    }
-    if (state.number.length !== 10) {
-      showToast("invalid phone Number", "warning");
-      return;
-    }
-    if (!state.address) {
-      showToast("Please Enter Your Delivery Address", "warning");
-      return;
-    }
-    if (!state.pincode) {
-      showToast("Please Enter Your pincode", "warning");
-      return;
-    }
-    if (state.pincode.length !== 6) {
-      showToast("invalid pincode", "warning");
-      return;
-    }
-    Dispatch(Address(state));
-    showToast("Address added successfully", "success");
-    navigate("/user/payment");
-  };
+  const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
+    useFormik({
+      initialValues: initialValue,
+      validationSchema: AddressSchema,
+      onSubmit: (value, action) => {
+        Dispatch(Address(value));
+        showToast("Address added successfully", "success");
+        navigate("/user/payment");
+        action.resetForm();
+      },
+    });
 
   return (
     <Box flexDirection="column">
@@ -158,54 +143,110 @@ const Cart = () => {
           <ModalHeader>Add Delivery Address</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Flex flexDirection="column" gap="10px">
-              <Input
-                type="text"
-                placeholder="Please Enter Name"
-                onChange={(e) =>
-                  dispatch({ type: "name", payload: e.target.value })
-                }
-              />
-              <Input
-                type="email"
-                placeholder="Please Enter Email"
-                onChange={(e) =>
-                  dispatch({ type: "email", payload: e.target.value })
-                }
-              />
-              <Input
-                type="number"
-                placeholder="Please Enter Number"
-                onChange={(e) =>
-                  dispatch({ type: "number", payload: e.target.value })
-                }
-              />
-              <Textarea
-                placeholder="Please Enter Your Address"
-                onChange={(e) =>
-                  dispatch({ type: "address", payload: e.target.value })
-                }
-              />
-              <Input
-                type="number"
-                placeholder="Please Enter Your Pincode"
-                onChange={(e) =>
-                  dispatch({ type: "pincode", payload: e.target.value })
-                }
-              />
-            </Flex>
+            <form onSubmit={handleSubmit}>
+              <FormControl>
+                <FormLabel htmlFor="name">Name</FormLabel>
+                <Input
+                  name="name"
+                  autoComplete="off"
+                  id="name"
+                  type="text"
+                  placeholder="Please Enter your Name"
+                  value={values.name}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errors.name && touched.name ? (
+                  <Text color="red" fontSize="sm">
+                    {errors.name}
+                  </Text>
+                ) : null}
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="email">Email</FormLabel>
+                <Input
+                  name="email"
+                  autoComplete="off"
+                  id="email"
+                  type="email"
+                  placeholder="Please Enter Email"
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errors.email && touched.email ? (
+                  <Text color="red" fontSize="sm">
+                    {errors.email}
+                  </Text>
+                ) : null}
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="number">Number</FormLabel>
+                <Input
+                  name="number"
+                  autoComplete="off"
+                  id="number"
+                  type="text"
+                  placeholder="Please Enter your Number"
+                  value={values.number}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errors.number && touched.number ? (
+                  <Text color="red" fontSize="sm">
+                    {errors.number}
+                  </Text>
+                ) : null}
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="address">Address</FormLabel>
+                <Textarea
+                  name="address"
+                  autoComplete="off"
+                  id="address"
+                  placeholder="Please Enter Your Address"
+                  value={values.address}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errors.address && touched.address ? (
+                  <Text color="red" fontSize="sm">
+                    {errors.address}
+                  </Text>
+                ) : null}
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="pincode">Pincode</FormLabel>
+                <Input
+                  name="pincode"
+                  autoComplete="off"
+                  id="pincode"
+                  type="text"
+                  placeholder="Please Enter Your Pincode"
+                  value={values.pincode}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+                {errors.pincode && touched.pincode ? (
+                  <Text color="red" fontSize="sm">
+                    {errors.pincode}
+                  </Text>
+                ) : null}
+              </FormControl>
+              <Button
+                bgColor={backgroundColor}
+                color="white"
+                type="submit"
+                marginTop="2.5"
+              >
+                Add Delivery Address
+              </Button>
+            </form>
           </ModalBody>
 
           <ModalFooter>
             <Button colorScheme="red" mr={3} onClick={onClose}>
               Cancel
-            </Button>
-            <Button
-              bgColor={backgroundColor}
-              color="white"
-              onClick={AddAddress}
-            >
-              Add Delivery Address
             </Button>
           </ModalFooter>
         </ModalContent>
