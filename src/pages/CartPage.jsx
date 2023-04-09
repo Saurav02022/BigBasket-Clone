@@ -19,8 +19,8 @@ import {
   FormLabel,
 } from "@chakra-ui/react";
 
-import { useFormik, Form } from "formik";
-import React, { useReducer } from "react";
+import React from "react";
+import { useFormik } from "formik";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 

@@ -4,12 +4,12 @@ import {
   Input,
   Image,
   Button,
-  Checkbox,
   Text,
   HStack,
   InputGroup,
   InputRightElement,
-  useToast,
+  FormControl,
+  FormLabel,
 } from "@chakra-ui/react";
 import { InfoIcon } from "@chakra-ui/icons";
 
@@ -22,35 +22,34 @@ import useShowToast from "../../../CustomHooks/useShowToast";
 import { successPayment } from "../../../redux/CartPage/action";
 import backgroundColor from "../../../components/backgroundColor";
 
-const CreditCard = () => {
-  const [cvv, setcvv] = useState("");
-  const [expiry, setExipry] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [cardNumber, setcardNumber] = useState("");
+import { useFormik } from "formik";
+import { CreditCardSchema } from "./Schema/CreditCard";
 
+const initialValues = {
+  cardNumber: "",
+  expiry: "",
+  cvv: "",
+};
+
+const CreditCard = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showToast] = useShowToast();
+  const [loading, setLoading] = useState(false);
 
   const { totalCartPrice } = useSelector((state) => state.CartReducer);
 
-  const handleBtn = () => {
-    if (cardNumber.length !== 16) {
-      showToast(
-        "card number should be 16 digits without any spaces",
-        "warning"
-      );
-      return;
-    }
-    if (!expiry.includes("/")) {
-      showToast("Expiry should be a valid number", "warning");
-      return;
-    }
+  const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
+    useFormik({
+      initialValues: initialValues,
+      validationSchema: CreditCardSchema,
+      onSubmit: (value, action) => {
+        handleBtn();
+        action.resetForm();
+      },
+    });
 
-    if (cvv.length !== 3 && typeof Number(cvv) !== Number) {
-      showToast("invalid cvv number", "warning");
-      return;
-    }
+  const handleBtn = () => {
     setLoading(true);
     showToast("Payment Successfully", "success", 4000);
     setTimeout(() => {
@@ -97,62 +96,82 @@ const CreditCard = () => {
           ))}
         </HStack>
       </Flex>
-      <Input
-        placeholder="Card Number"
-        type="number"
-        isRequired={true}
-        onChange={(e) => setcardNumber(e.target.value)}
-      />
-      <Flex gap="2">
-        <Input
-          placeholder="Expiry (MM/YY)"
-          type="text"
-          isRequired={true}
-          onChange={(e) => setExipry(e.target.value)}
-        />
-        <InputGroup>
-          <InputRightElement
-            pointerEvents="none"
-            children={<InfoIcon color="gray.300" />}
-          />
+      <form onSubmit={handleSubmit}>
+        <FormControl>
+          <FormLabel htmlFor="">Card Number</FormLabel>
           <Input
-            type="text"
-            placeholder="CVV"
-            isRequired={true}
-            onChange={(e) => setcvv(e.target.value)}
+            placeholder="Please fill your Card Number"
+            name="cardNumber"
+            autoComplete="off"
+            type="number"
+            value={values.cardNumber}
+            onChange={handleChange}
+            onBlur={handleBlur}
           />
-        </InputGroup>
-      </Flex>
-      <Flex gap="1">
-        <Checkbox colorScheme="pink" isRequired={true}>
-          Save this card securely for future
-        </Checkbox>
-        <Text
+          {errors.cardNumber && touched.cardNumber ? (
+            <Text color="red" fontSize="sm">
+              {errors.cardNumber}
+            </Text>
+          ) : null}
+        </FormControl>
+        <Flex gap="2">
+          <FormControl>
+            <FormLabel>Expiry</FormLabel>
+            <Input
+              name="expiry"
+              autoComplete="off"
+              placeholder="Please Enter your Expiry (MM/YY)"
+              type="string"
+              value={values.expiry}
+              onChange={handleChange}
+              onBlur={handleBlur}
+            />
+            {errors.expiry && touched.expiry ? (
+              <Text color="red" fontSize="sm">
+                {errors.expiry}
+              </Text>
+            ) : null}
+          </FormControl>
+          <FormControl>
+            <FormLabel>CVV</FormLabel>
+            <InputGroup>
+              <InputRightElement
+                pointerEvents="none"
+                children={<InfoIcon color="gray.300" />}
+              />
+              <Input
+                name="cvv"
+                autoComplete="off"
+                type="number"
+                placeholder="Please Enter your CVV"
+                value={values.cvv}
+                onChange={handleChange}
+                onBlur={handleBlur}
+              />
+              {errors.cvv && touched.cvv ? (
+                <Text color="red" fontSize="sm">
+                  {errors.cvv}
+                </Text>
+              ) : null}
+            </InputGroup>
+          </FormControl>
+        </Flex>
+        <Button
+          type="submit"
+          marginTop="5"
+          color="#FFFFFF"
           fontFamily="Inter"
-          fontSize="12px"
-          fontWeight="500"
-          color="#388DFF"
-          marginTop="1"
+          fontSize="16px"
+          fontWeight="600"
+          backgroundColor={backgroundColor}
+          _hover={{
+            color: "white",
+            backgroundColor: { backgroundColor },
+          }}
         >
-          Know more
-        </Text>
-      </Flex>
-      <Button
-        color="#FFFFFF"
-        fontFamily="Inter"
-        fontSize="16px"
-        fontWeight="600"
-        height="49px"
-        padding="12px 12px 12px 12px"
-        backgroundColor={backgroundColor}
-        _hover={{
-          color: "white",
-          backgroundColor: { backgroundColor },
-        }}
-        onClick={handleBtn}
-      >
-        Pay ₹ {totalCartPrice.toFixed(1)}
-      </Button>
+          Pay ₹ {totalCartPrice.toFixed(1)}
+        </Button>
+      </form>
     </Flex>
   );
 };
