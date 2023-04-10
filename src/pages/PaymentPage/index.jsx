@@ -200,7 +200,7 @@ function PaymentPage() {
                   >
                     Gift card
                   </Heading>
-                  <Text color="grey">One card for all Nykaa apps</Text>
+                  <Text color="grey">One card for all bigbasket users</Text>
                 </Flex>
                 {method === "Gift" && (
                   <Box border="0px solid red" margin="auto">

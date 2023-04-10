@@ -24,6 +24,7 @@ import backgroundColor from "../../../components/backgroundColor";
 
 import { useFormik } from "formik";
 import { CreditCardSchema } from "./Schema/CreditCard";
+import HandleLoading from "../../../components/HandleLoading";
 
 const initialValues = {
   cardNumber: "",
@@ -44,7 +45,10 @@ const CreditCard = () => {
       initialValues: initialValues,
       validationSchema: CreditCardSchema,
       onSubmit: (value, action) => {
-        handleBtn();
+        const flag = confirm("Are you sure you want to purchase ?");
+        if (flag) {
+          handleBtn();
+        }
         action.resetForm();
       },
     });
@@ -60,7 +64,7 @@ const CreditCard = () => {
   };
 
   if (loading) {
-    return <Heading textAlign={"center"}>loading....</Heading>;
+    return <HandleLoading />;
   }
 
   return (

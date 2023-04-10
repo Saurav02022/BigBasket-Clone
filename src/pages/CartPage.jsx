@@ -45,7 +45,7 @@ const Cart = () => {
   const [showToast] = useShowToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { data, totalCartPrice } = useSelector((store) => store.CartReducer);
+  const { data, totalCartPrice,ItemCount } = useSelector((store) => store.CartReducer);
 
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
@@ -77,7 +77,19 @@ const Cart = () => {
         marginBottom="50px"
       >
         {data.length > 0 &&
-          data.map((item, index) => <CartItem {...item} key={index} />)}
+          data.map((item, index) => (
+            <CartItem
+              index={index}
+              img={item.img}
+              title={item.title}
+              price={item.price}
+              rating={item.rating}
+              category={item.category}
+              quantity={item.quantity}
+              productQuantity={item.productQuantity}
+              key={index}
+            />
+          ))}
       </Box>
       {data.length === 0 && (
         <Box
@@ -130,7 +142,7 @@ const Cart = () => {
             bgColor={backgroundColor}
             color="white"
             onClick={onOpen}
-            isDisabled={totalCartPrice > 0 ? false : true}
+            isDisabled={ItemCount > 0 ? false : true}
           >
             Checkout
           </Button>

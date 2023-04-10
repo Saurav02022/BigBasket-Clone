@@ -1,8 +1,8 @@
 import {
   cartDataLoading,
   cartDataSuccess,
+  ManageQuantity,
   deleteCartItem,
-  decreasePrice,
   address,
   successfullypayment,
 } from "./actionType";
@@ -25,30 +25,58 @@ export const CartReducer = (state = initialState, { type, payload }) => {
     }
 
     case cartDataSuccess: {
+      let totalPrice = state.data.reduce((accumulator, currentProduct) => {
+        const productPrice =
+          currentProduct.price * currentProduct.productQuantity;
+        return accumulator + productPrice;
+      }, 0);
       return {
         ...state,
         loading: false,
         data: [...state.data, payload],
         ItemCount: state.data.length + 1,
-        totalCartPrice: state.totalCartPrice + payload.price,
+        totalCartPrice: totalPrice,
       };
     }
 
-    case decreasePrice: {
+    case ManageQuantity: {
+      let newData = state.data.map((item, index) => {
+        if (index === payload.index) {
+          item.productQuantity = payload.productQuantity;
+        }
+        return item;
+      });
+
+      let totalPrice = newData.reduce((accumulator, currentProduct) => {
+        const productPrice =
+          currentProduct.price * currentProduct.productQuantity;
+        return accumulator + productPrice;
+      }, 0);
+
       return {
         ...state,
-        totalCartPrice: state.totalCartPrice - payload,
+        loading: false,
+        data: newData,
+        ItemCount: newData.length,
+        totalCartPrice: totalPrice,
       };
     }
 
     case deleteCartItem: {
-      const filterData = state.data.filter((item) => {
-        return item.index !== payload;
+      const filterData = state.data.filter((item, index) => {
+        return index !== payload;
       });
+
+      let totalPrice = filterData.reduce((accumulator, currentProduct) => {
+        const productPrice =
+          currentProduct.price * currentProduct.productQuantity;
+        return accumulator + productPrice;
+      }, 0);
       return {
         ...state,
         data: filterData,
         ItemCount: filterData.length,
+        totalCartPrice: totalPrice,
       };
     }
 

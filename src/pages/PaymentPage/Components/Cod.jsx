@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Flex, Heading, Button } from "@chakra-ui/react";
 
 import useShowToast from "../../../CustomHooks/useShowToast";
+import HandleLoading from "../../../components/HandleLoading";
 import { successPayment } from "../../../redux/CartPage/action";
 import backgroundColor from "../../../components/backgroundColor";
 
@@ -16,7 +17,8 @@ const Cod = () => {
   const { totalCartPrice } = useSelector((state) => state.CartReducer);
 
   const HandleClick = () => {
-    if (totalCartPrice > 0) {
+    const flag = confirm("Are you sure you want to purchase ?");
+    if (totalCartPrice > 0 && flag === true) {
       setLoading(true);
       showToast("Payment Successfully", "success", 4000);
       setTimeout(() => {
@@ -28,7 +30,7 @@ const Cod = () => {
   };
 
   if (loading) {
-    return <Heading textAlign={"center"}>loading....</Heading>;
+    return <HandleLoading />;
   }
 
   return (

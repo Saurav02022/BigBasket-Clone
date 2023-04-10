@@ -1,29 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { Box, Heading, Select } from "@chakra-ui/react";
+import { Box, Select, Skeleton } from "@chakra-ui/react";
 
 import { getData } from "../redux/ProductPage/action";
 import { useDispatch, useSelector } from "react-redux";
 import ProductCardItem from "../components/productCardItem";
 
+import HandleError from "../components/HandleError";
+import HandleLoading from "../components/HandleLoading";
+
 const Product = () => {
   const dispatch = useDispatch();
   const [sortby, setSortBy] = useState("");
   const { data, loading, error } = useSelector((store) => store.productReducer);
+  const [isLoading, setisLoading] = useState(false);
 
   useEffect(() => {
     dispatch(getData(sortby));
+    setTimeout(() => {
+      setisLoading(true);
+    }, 1500);
   }, [sortby]);
 
   if (loading) {
-    return <Heading textAlign="center">loading...</Heading>;
+    return <HandleLoading />;
   }
   if (error) {
-    return (
-      <Heading textAlign="center" color="red">
-        Server Down Please Try again later
-      </Heading>
-    );
+    return <HandleError />;
   }
+
   return (
     <>
       <Box
@@ -41,7 +45,12 @@ const Product = () => {
         }}
         gap="5"
       >
-        <Select onChange={(e) => setSortBy(e.target.value)}>
+        <Select
+          onChange={(e) => {
+            setSortBy(e.target.value);
+            setisLoading(false);
+          }}
+        >
           <option value=" ">Sort by Price</option>
           <option value="all">All</option>
           <option value="asc">Low to High</option>
@@ -64,16 +73,18 @@ const Product = () => {
         marginBottom="50px"
       >
         {data.map((item, index) => (
-          <ProductCardItem
-            index={index}
-            img={item.img}
-            title={item.title}
-            price={item.price}
-            rating={item.rating}
-            category={item.category}
-            quantity={item.quantity}
-            key={index}
-          />
+          <Skeleton isLoaded={isLoading}>
+            <ProductCardItem
+              index={index}
+              img={item.img}
+              title={item.title}
+              price={item.price}
+              rating={item.rating}
+              category={item.category}
+              quantity={item.quantity}
+              key={index}
+            />
+          </Skeleton>
         ))}
       </Box>
     </>

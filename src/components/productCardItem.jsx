@@ -7,9 +7,9 @@ import {
   Image,
   Text,
 } from "@chakra-ui/react";
-import { StarIcon } from "@chakra-ui/icons";
 
 import { useState } from "react";
+import { StarIcon } from "@chakra-ui/icons";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -35,7 +35,7 @@ function ProductCardItem({
 
   const HandleAddtoBag = () => {
     if (!isAuthenticated) {
-      showToast("Please login", "info");
+      showToast("Please login to use add to bag", "info");
       return;
     }
     const payload = {
@@ -46,13 +46,14 @@ function ProductCardItem({
       rating,
       category,
       quantity,
+      productQuantity: 1,
     };
     const existPayload = data.filter((item) => {
       return item.index === index;
     });
     if (existPayload.length > 0) {
       setVisible(true);
-      showToast("Please Visit again to buy more", "info");
+      showToast("Please Visit Cart Page to increase/decrese quantity", "info");
       return;
     }
     showToast("Product added successfully", "success");
@@ -62,15 +63,18 @@ function ProductCardItem({
 
   return (
     <Box
+      height={{
+        base: "450px",
+        "2xl": "600px",
+      }}
       display={"flex"}
       flexDirection="column"
-      justifyContent={"space-between"}
+      justifyContent={"center"}
       gap="10px"
       bg={"white"}
       border="1px solid #ccc"
       boxShadow={"sm"}
       borderRadius="sm"
-      paddingY="10px"
     >
       <Box
         _hover={{
@@ -85,20 +89,12 @@ function ProductCardItem({
       <Flex
         direction={"column"}
         gap="2"
+        justifyContent="center"
         textAlign="center"
         paddingBottom={"20px"}
+        border="0px solid red"
       >
-        <Heading
-          as={"p"}
-          fontSize="14px"
-          fontWeight={500}
-          letterSpacing="-0.1px"
-          lineHeight={"20px"}
-          fontFamily={"Inter,Roboto,Arial,sans-serif"}
-          mt="1.5"
-        >
-          {title}
-        </Heading>
+        <Text fontSize="xs">{title}</Text>
         <Flex gap={"2"} justifyContent="center">
           <Heading
             as={"p"}
@@ -177,7 +173,11 @@ function ProductCardItem({
         >
           Add to bag
         </Button>
-        {visible && <Text color="red">You can buy only One at a time.</Text>}
+        {visible && (
+          <Text color="red">
+            You can increase/decrease quantity at cart Page
+          </Text>
+        )}
       </Flex>
     </Box>
   );

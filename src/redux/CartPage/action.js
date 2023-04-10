@@ -1,8 +1,8 @@
 import {
   cartDataLoading,
   cartDataSuccess,
+  ManageQuantity,
   deleteCartItem,
-  decreasePrice,
   address,
   successfullypayment,
 } from "./actionType";
@@ -12,12 +12,12 @@ export const addToCart = (data) => (dispatch) => {
   dispatch({ type: cartDataSuccess, payload: data });
 };
 
-export const removeItem = (index) => (dispatch) => {
-  dispatch({ type: deleteCartItem, payload: index });
+export const manageQuantityOfData = (index, productQuantity) => (dispatch) => {
+  dispatch({ type: ManageQuantity, payload: { index, productQuantity } });
 };
 
-export const decrease = (price) => (dispatch) => {
-  dispatch({ type: decreasePrice, payload: price });
+export const removeItem = (index) => (dispatch) => {
+  dispatch({ type: deleteCartItem, payload: index });
 };
 
 export const Address = (data) => (dispatch) => {

@@ -1,21 +1,63 @@
+import {
+  Badge,
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Image,
+  Text,
+} from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
-import { Badge, Box, Button, Flex, Heading, Image } from "@chakra-ui/react";
 
+import { useState } from "react";
 import { useDispatch } from "react-redux";
-
-import { decrease, removeItem } from "../redux/CartPage/action";
+import HandleLoading from "./HandleLoading";
 import useShowToast from "../CustomHooks/useShowToast";
+import { manageQuantityOfData, removeItem } from "../redux/CartPage/action";
 
-function CartItem({ index, img, title, price, rating, category, quantity }) {
+function CartItem({
+  index,
+  img,
+  title,
+  price,
+  rating,
+  category,
+  quantity,
+  productQuantity,
+}) {
   const [showToast] = useShowToast();
   const dispatch = useDispatch();
+  const [Quantity, setQuantity] = useState(productQuantity);
+  const [deleteItemLoading, setDeleteItemLoading] = useState(false);
+
+  const incrementQuantity = () => {
+    setQuantity((pre) => pre + 1);
+    dispatch(manageQuantityOfData(index, Quantity + 1));
+  };
+
+  const decrementQuantity = () => {
+    if (Quantity > 2) {
+      setQuantity((pre) => pre - 1);
+      dispatch(manageQuantityOfData(index, Quantity - 1));
+    } else {
+      setQuantity(1);
+      dispatch(manageQuantityOfData(index, 1));
+    }
+  };
 
   const RemoveItem = () => {
-    showToast("Remove item Successfully", "success");
-    dispatch(removeItem(index));
-    dispatch(decrease(price));
+    setDeleteItemLoading(true);
+    setTimeout(() => {
+      showToast("Remove item Successfully", "success");
+      dispatch(removeItem(index));
+      setDeleteItemLoading(false);
+    }, 250);
   };
-  
+
+  if (deleteItemLoading) {
+    return <HandleLoading />;
+  }
+
   return (
     <Box
       display={"flex"}
@@ -121,6 +163,11 @@ function CartItem({ index, img, title, price, rating, category, quantity }) {
           >
             {rating.count} Ratings
           </Heading>
+        </Flex>
+        <Flex gap={"2"} justifyContent="center" alignItems="center">
+          <Button onClick={decrementQuantity}>-</Button>
+          <Text>{Quantity}</Text>
+          <Button onClick={incrementQuantity}>+</Button>
         </Flex>
         <Flex flexDirection="column" alignItems="center" gap="2" marginTop="2">
           <Button
