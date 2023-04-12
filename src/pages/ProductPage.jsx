@@ -16,9 +16,6 @@ const Product = () => {
 
   useEffect(() => {
     dispatch(getData(sortby));
-    setTimeout(() => {
-      setisLoading(true);
-    }, 1500);
   }, [sortby]);
 
   if (loading) {
@@ -27,6 +24,9 @@ const Product = () => {
   if (error) {
     return <HandleError />;
   }
+  setTimeout(() => {
+    setisLoading(true);
+  }, 1500);
 
   return (
     <>
