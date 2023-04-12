@@ -10,13 +10,15 @@ import HandleLoading from "../components/HandleLoading";
 
 const Product = () => {
   const dispatch = useDispatch();
-  const [sortby, setSortBy] = useState("");
+  const [URL, setURL] = useState(
+    "https://bigbasket-clone-backend-db-json.vercel.app/posts"
+  );
   const { data, loading, error } = useSelector((store) => store.productReducer);
   const [isLoading, setisLoading] = useState(false);
 
   useEffect(() => {
-    dispatch(getData(sortby));
-  }, [sortby]);
+    dispatch(getData(URL));
+  }, [URL]);
 
   if (loading) {
     return <HandleLoading />;
@@ -47,14 +49,22 @@ const Product = () => {
       >
         <Select
           onChange={(e) => {
-            setSortBy(e.target.value);
+            setURL(e.target.value);
             setisLoading(false);
           }}
         >
-          <option value=" ">Sort by Price</option>
-          <option value="all">All</option>
-          <option value="asc">Low to High</option>
-          <option value="desc">High to Low</option>
+          <option value="https://bigbasket-clone-backend-db-json.vercel.app/posts">
+            Sort by Price
+          </option>
+          <option value="https://bigbasket-clone-backend-db-json.vercel.app/posts">
+            All
+          </option>
+          <option value="https://bigbasket-clone-backend-db-json.vercel.app/posts?_sort=price&_order=asc">
+            Low to High
+          </option>
+          <option value="https://bigbasket-clone-backend-db-json.vercel.app/posts?_sort=price&_order=desc">
+            High to Low
+          </option>
         </Select>
       </Box>
       <Box
@@ -73,7 +83,7 @@ const Product = () => {
         marginBottom="50px"
       >
         {data.map((item, index) => (
-          <Skeleton isLoaded={isLoading}>
+          <Skeleton isLoaded={isLoading} key={index}>
             <ProductCardItem
               index={index}
               img={item.img}
