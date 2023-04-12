@@ -53,7 +53,7 @@ function ProductCardItem({
     });
     if (existPayload.length > 0) {
       setVisible(true);
-      showToast("Please Visit Cart Page to increase/decrese quantity", "info");
+      showToast("Product Item is already in cart", "info");
       return;
     }
     showToast("Product added successfully", "success");
@@ -163,19 +163,19 @@ function ProductCardItem({
           </Heading>
         </Flex>
         <Button
+          display={!visible ? "block" : "none"}
           margin="auto"
           marginTop="10px"
           width="50%"
           color={"white"}
           backgroundColor={backgroundColor}
           onClick={HandleAddtoBag}
-          isDisabled={visible}
         >
           Add to bag
         </Button>
         {visible && (
           <Text color="red">
-            You can increase/decrease quantity at cart Page
+            Please Visit Cart to increase/decrease quantity of the product.
           </Text>
         )}
       </Flex>

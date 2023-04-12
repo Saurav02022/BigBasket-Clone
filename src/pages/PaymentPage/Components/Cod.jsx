@@ -17,13 +17,13 @@ const Cod = () => {
   const { totalCartPrice } = useSelector((state) => state.CartReducer);
 
   const HandleClick = () => {
-    const flag = confirm("Are you sure you want to purchase ?");
+    const flag = confirm("Are you sure you want to payment ?");
     if (totalCartPrice > 0 && flag === true) {
       setLoading(true);
-      showToast("Payment Successfully", "success", 4000);
       setTimeout(() => {
+        showToast("Payment Successfully", "success", 4000);
         dispatch(successPayment());
-        navigate("/");
+        navigate("/user/payment/confirm");
         setLoading(false);
       }, 2100);
     }

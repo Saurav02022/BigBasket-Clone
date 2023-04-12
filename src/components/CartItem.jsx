@@ -47,11 +47,12 @@ function CartItem({
 
   const RemoveItem = () => {
     setDeleteItemLoading(true);
+    window.localStorage.setItem("deleteItemLoading", true);
     setTimeout(() => {
       showToast("Remove item Successfully", "success");
       dispatch(removeItem(index));
       setDeleteItemLoading(false);
-    }, 250);
+    }, 500);
   };
 
   if (deleteItemLoading) {
@@ -166,7 +167,7 @@ function CartItem({
         </Flex>
         <Flex gap={"2"} justifyContent="center" alignItems="center">
           <Button onClick={decrementQuantity}>-</Button>
-          <Text>{Quantity}</Text>
+          <Text>{productQuantity}</Text>
           <Button onClick={incrementQuantity}>+</Button>
         </Flex>
         <Flex flexDirection="column" alignItems="center" gap="2" marginTop="2">

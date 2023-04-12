@@ -29,7 +29,7 @@ const GiftCard = () => {
       initialValues: initialValues,
       validationSchema: GiftCardSchema,
       onSubmit: (value, action) => {
-        const flag = confirm("Are you sure you want to purchase ?");
+        const flag = confirm("Are you sure you want to payment ?");
         if (flag) {
           handlebtn();
         }
@@ -42,7 +42,7 @@ const GiftCard = () => {
     showToast("Payment Successfully", "success", 4000);
     setTimeout(() => {
       dispatch(successPayment());
-      navigate("/");
+      navigate("/user/payment/confirm");
       setLoading(false);
     }, 2100);
   }

@@ -25,11 +25,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import CartItem from "../components/CartItem";
-import { Address } from "../redux/CartPage/action";
+import { Address, successPayment } from "../redux/CartPage/action";
 import useShowToast from "../CustomHooks/useShowToast";
 import backgroundColor from "../components/backgroundColor";
 
 import { AddressSchema } from "../Schema";
+import { successfullypayment } from "../redux/CartPage/actionType";
 
 const initialValue = {
   name: "",
@@ -45,7 +46,9 @@ const Cart = () => {
   const [showToast] = useShowToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { data, totalCartPrice,ItemCount } = useSelector((store) => store.CartReducer);
+  const { data, totalCartPrice, ItemCount } = useSelector(
+    (store) => store.CartReducer
+  );
 
   const { values, errors, handleBlur, handleChange, handleSubmit, touched } =
     useFormik({
@@ -136,7 +139,18 @@ const Cart = () => {
         </Flex>
         <Text>*Food Coupons are not accepted for this order</Text>
         <Divider color="black" marginTop="30px" />
-        <Flex justifyContent="flex-end">
+        <Flex justifyContent="flex-end" gap="5">
+          <Button
+            marginTop="20px"
+            bgColor={backgroundColor}
+            color="white"
+            isDisabled={ItemCount > 0 ? false : true}
+            onClick={() => {
+              Dispatch(successPayment());
+            }}
+          >
+            Empty Cart
+          </Button>
           <Button
             marginTop="20px"
             bgColor={backgroundColor}

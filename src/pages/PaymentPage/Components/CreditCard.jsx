@@ -45,7 +45,7 @@ const CreditCard = () => {
       initialValues: initialValues,
       validationSchema: CreditCardSchema,
       onSubmit: (value, action) => {
-        const flag = confirm("Are you sure you want to purchase ?");
+        const flag = confirm("Are you sure you want to payment ?");
         if (flag) {
           handleBtn();
         }
@@ -55,10 +55,10 @@ const CreditCard = () => {
 
   const handleBtn = () => {
     setLoading(true);
-    showToast("Payment Successfully", "success", 4000);
     setTimeout(() => {
+      showToast("Payment Successfully", "success", 4000);
       dispatch(successPayment());
-      navigate("/");
+      navigate("/user/payment/confirm");
       setLoading(false);
     }, 2100);
   };

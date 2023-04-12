@@ -24,6 +24,7 @@ export const Address = (data) => (dispatch) => {
   dispatch({ type: address, payload: data });
 };
 
+//this function will work for empty the cart as well
 export const successPayment = () => (dispatch) => {
   dispatch({ type: successfullypayment });
 };

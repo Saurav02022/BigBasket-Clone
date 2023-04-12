@@ -25,17 +25,13 @@ export const CartReducer = (state = initialState, { type, payload }) => {
     }
 
     case cartDataSuccess: {
-      let totalPrice = state.data.reduce((accumulator, currentProduct) => {
-        const productPrice =
-          currentProduct.price * currentProduct.productQuantity;
-        return accumulator + productPrice;
-      }, 0);
       return {
         ...state,
         loading: false,
         data: [...state.data, payload],
         ItemCount: state.data.length + 1,
-        totalCartPrice: totalPrice,
+        totalCartPrice:
+          state.totalCartPrice + payload.price * payload.productQuantity,
       };
     }
 
