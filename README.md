@@ -1,32 +1,36 @@
 
-# bigbasket-clone
+# BigBasket Clone
 
+This is a clone of BigBasket.com, an e-commerce platform for groceries. The project was built using React, Redux, and Chakra UI.
 
-I developed a clone of bigbasket.com, an e-commerce platform for groceries, as an individual project using React, Redux, and Chakra UI. The project took 5 days to complete and was deployed on netlify. It includes essential features such as product listings, a shopping cart, checkout, and payment. Additionally, the project features responsive design for a seamless shopping experience on all devices.
+# Project Description
+The goal of this project was to recreate the essential features of BigBasket.com, such as product listings, a shopping cart, checkout, and payment. The project was developed as an individual project and took 5 days to complete. The project features responsive design for a seamless shopping experience on all devices.
 
+# Context
+BigBasket.com is a popular e-commerce platform for groceries in India. This clone was created to showcase my skills in building complex e-commerce applications and to provide a seamless shopping experience for users.
 
 ## Tech Stack
 
-**Client:** React,Redux and Chakra UI
+The project uses the following technologies:
 
-**Server:** N/A
+- **React:**  A JavaScript library for building user interfaces
 
+- **Redux:**  A predictable state container for JavaScript apps
 
-## start this project on local server
+- **Chakra UI:** A modular and accessible component library for Reacts
 
-```bash
-  clone this repo in your local system
-```
-```bash
-  npm install
-```
+## Deployment
 
-```bash
- npm run start
-```
+To run this project on your local machine, follow these steps:
+
+<ol>
+  <li>Clone this repository</li>
+  <li>Install dependencies using npm install</li>
+  <li>Run the project using npm run start</li>
+</ol>
 
 ## Pages
-
+The following pages are included in this project:
 - Home page
 - signup page using auth0
 - login page using auth0
@@ -36,12 +40,8 @@ I developed a clone of bigbasket.com, an e-commerce platform for groceries, as a
 - Address modal
 - Payment page
 
-## responsive
-
-- 100%
-
-## Functionality
-
+## Features
+The following features are included in this project:
 - signup using auth0
 - login using auth0
 - login using Google,GitHub and Facebook (auth0)
@@ -65,6 +65,8 @@ I developed a clone of bigbasket.com, an e-commerce platform for groceries, as a
 ![App Screenshot](https://user-images.githubusercontent.com/104342116/224604210-68e25aec-38dc-42e5-9d94-de246984d961.png)
 
 ![App Screenshot](https://user-images.githubusercontent.com/104342116/224604439-18f557c4-0753-4be2-9c65-93af32a4c4ec.png)
+![App Screenshot](https://user-images.githubusercontent.com/104342116/231350663-1e921cc1-aa61-46e2-b04f-c7a6750a8be4.png)
+
 
 ![App Screenshot](https://user-images.githubusercontent.com/104342116/224604826-ec3a61e4-8341-495d-9293-1c4f7e8ccebf.png)
 
