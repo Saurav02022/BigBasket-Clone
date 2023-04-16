@@ -2,10 +2,12 @@ import {
   Badge,
   Box,
   Button,
+  Center,
   Flex,
   Heading,
   Image,
   Text,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
@@ -30,6 +32,10 @@ function ProductCardItem({
   const [showToast] = useShowToast();
   const { isAuthenticated } = useAuth0();
   const [visible, setVisible] = useState(false);
+  const textSize = useBreakpointValue({
+    base: "lg",
+    md: "md",
+  });
 
   const { data } = useSelector((store) => store.CartReducer);
 
@@ -65,7 +71,7 @@ function ProductCardItem({
     <Box
       height={{
         base: "450px",
-        "2xl": "600px",
+        "2xl": "500px",
       }}
       display={"flex"}
       flexDirection="column"
@@ -75,17 +81,15 @@ function ProductCardItem({
       border="1px solid #ccc"
       boxShadow={"sm"}
       borderRadius="sm"
+      py="10px"
     >
-      <Box
+      <Center
         _hover={{
           cursor: "pointer",
         }}
-        border={"0px solid red"}
-        justifyContent="center"
-        alignItems={"center"}
       >
-        <Image src={img} margin="auto" width="50%" />
-      </Box>
+        <Image src={img} width="50%" alt={category} />
+      </Center>
       <Flex
         direction={"column"}
         gap="2"
@@ -94,11 +98,15 @@ function ProductCardItem({
         paddingBottom={"20px"}
         border="0px solid red"
       >
-        <Text fontSize="xs">{title}</Text>
+        <Center>
+          <Text fontSize={textSize} noOfLines={1}>
+            {title}
+          </Text>
+        </Center>
         <Flex gap={"2"} justifyContent="center">
           <Heading
             as={"p"}
-            fontSize="14px"
+            fontSize={textSize}
             lineHeight={"20px"}
             fontWeight="normal"
           >
@@ -106,17 +114,17 @@ function ProductCardItem({
           </Heading>
           <Heading
             as={"p"}
-            fontSize="14px"
+            fontSize={textSize}
             lineHeight={"20px"}
             fontWeight="normal"
           >
             {category}
           </Heading>
         </Flex>
-        <Flex gap={"2"} justifyContent="center">
+        <Center>
           <Heading
             as={"p"}
-            fontSize="14px"
+            fontSize={textSize}
             lineHeight={"20px"}
             fontWeight="normal"
           >
@@ -124,17 +132,17 @@ function ProductCardItem({
           </Heading>
           <Heading
             as={"p"}
-            fontSize="14px"
+            fontSize={textSize}
             lineHeight={"20px"}
             fontWeight="normal"
           >
             {quantity}
           </Heading>
-        </Flex>
+        </Center>
         <Flex gap={"2"} justifyContent="center">
           <Heading
             as={"p"}
-            fontSize="14px"
+            fontSize={textSize}
             lineHeight={"20px"}
             fontWeight="normal"
           >
@@ -142,7 +150,7 @@ function ProductCardItem({
           </Heading>
           <Heading
             as={"p"}
-            fontSize="14px"
+            fontSize={textSize}
             lineHeight={"20px"}
             fontWeight="normal"
           >
@@ -155,24 +163,26 @@ function ProductCardItem({
           </Badge>
           <Heading
             as={"p"}
-            fontSize="14px"
+            fontSize={textSize}
             lineHeight={"20px"}
             fontWeight="normal"
           >
             {rating.count} Ratings
           </Heading>
         </Flex>
-        <Button
-          display={!visible ? "block" : "none"}
-          margin="auto"
-          marginTop="10px"
-          width="50%"
-          color={"white"}
-          backgroundColor={backgroundColor}
-          onClick={HandleAddtoBag}
-        >
-          Add to bag
-        </Button>
+        <center>
+          <Button
+            display={!visible ? "block" : "none"}
+            marginTop="10px"
+            color={"white"}
+            colorScheme="green"
+            backgroundColor={backgroundColor}
+            onClick={HandleAddtoBag}
+            fontSize={textSize}
+          >
+            Add to bag
+          </Button>
+        </center>
         {visible && (
           <Text color="red">
             Please Visit Cart to increase/decrease quantity of the product.

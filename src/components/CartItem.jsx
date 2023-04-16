@@ -6,6 +6,7 @@ import {
   Heading,
   Image,
   Text,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { StarIcon } from "@chakra-ui/icons";
 
@@ -28,6 +29,10 @@ function CartItem({
   const [showToast] = useShowToast();
   const dispatch = useDispatch();
   const [Quantity, setQuantity] = useState(productQuantity);
+  const textSize = useBreakpointValue({
+    base: "lg",
+    md: "md",
+  });
   const [deleteItemLoading, setDeleteItemLoading] = useState(false);
 
   const incrementQuantity = () => {
@@ -89,19 +94,20 @@ function CartItem({
       >
         <Heading
           as={"p"}
-          fontSize="14px"
+          fontSize={textSize}
           fontWeight={500}
           letterSpacing="-0.1px"
           lineHeight={"20px"}
           fontFamily={"Inter,Roboto,Arial,sans-serif"}
           mt="1.5"
+          noOfLines={1}
         >
           {title}
         </Heading>
         <Flex gap={"2"} justifyContent="center">
           <Heading
             as={"p"}
-            fontSize="14px"
+            fontSize={textSize}
             lineHeight={"20px"}
             fontWeight="normal"
           >
@@ -109,7 +115,7 @@ function CartItem({
           </Heading>
           <Heading
             as={"p"}
-            fontSize="14px"
+            fontSize={textSize}
             lineHeight={"20px"}
             fontWeight="normal"
           >
@@ -119,7 +125,7 @@ function CartItem({
         <Flex gap={"2"} justifyContent="center">
           <Heading
             as={"p"}
-            fontSize="14px"
+            fontSize={textSize}
             lineHeight={"20px"}
             fontWeight="normal"
           >
@@ -127,7 +133,7 @@ function CartItem({
           </Heading>
           <Heading
             as={"p"}
-            fontSize="14px"
+            fontSize={textSize}
             lineHeight={"20px"}
             fontWeight="normal"
           >
@@ -137,7 +143,7 @@ function CartItem({
         <Flex gap={"2"} justifyContent="center">
           <Heading
             as={"p"}
-            fontSize="14px"
+            fontSize={textSize}
             lineHeight={"20px"}
             fontWeight="normal"
           >
@@ -145,7 +151,7 @@ function CartItem({
           </Heading>
           <Heading
             as={"p"}
-            fontSize="14px"
+            fontSize={textSize}
             lineHeight={"20px"}
             fontWeight="normal"
           >
@@ -158,7 +164,7 @@ function CartItem({
           </Badge>
           <Heading
             as={"p"}
-            fontSize="14px"
+            fontSize={textSize}
             lineHeight={"20px"}
             fontWeight="normal"
           >
